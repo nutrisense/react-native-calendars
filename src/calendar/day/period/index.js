@@ -46,6 +46,7 @@ class Day extends Component {
     const newMarkingStyle = this.getDrawingStyle(nextProps.marking);
 
     if (!_.isEqual(this.markingStyle, newMarkingStyle)) {
+      this.theme = {...defaultStyle, ...(nextProps.theme || {})};
       this.markingStyle = newMarkingStyle;
       return true;
     }

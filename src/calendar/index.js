@@ -103,6 +103,8 @@ class Calendar extends Component {
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     const current = parseDate(nextProps.current);
+    this.style = styleConstructor(nextProps.theme);
+
     if (current && current.toString('yyyy MM') !== this.state.currentMonth.toString('yyyy MM')) {
       this.setState({
         currentMonth: current.clone()
