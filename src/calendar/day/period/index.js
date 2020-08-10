@@ -45,10 +45,16 @@ class Day extends Component {
   shouldComponentUpdate(nextProps) {
     const newMarkingStyle = this.getDrawingStyle(nextProps.marking);
 
+    if (!_.isEqual(nextProps.theme, this.props.theme)) {
+      this.style = styleConstructor(nextProps.theme);
+      this.theme = {...defaultStyle, ...(nextProps.theme || {})};
+      return true;
+    } 
+
     if (!_.isEqual(this.markingStyle, newMarkingStyle)) {
       this.markingStyle = newMarkingStyle;
       return true;
-    }
+    } 
 
     return shouldUpdate(this.props, nextProps, ['state', 'children', 'onPress', 'onLongPress']);
   }
@@ -113,6 +119,7 @@ class Day extends Component {
       }
       return prev;
     }, defaultStyle);
+
     return resultStyle;
   }
 

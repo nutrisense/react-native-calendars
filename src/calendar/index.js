@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import * as ReactNative from 'react-native';
 import PropTypes from 'prop-types';
 import XDate from 'xdate';
+import { isEqual } from 'lodash';
 
 import dateutils from '../dateutils';
 import {xdateToData, parseDate} from '../interface';
@@ -114,7 +115,15 @@ class Calendar extends Component {
     this.updateMonth = this.updateMonth.bind(this);
     this.pressDay = this.pressDay.bind(this);
     this.longPressDay = this.longPressDay.bind(this);
-    this.shouldComponentUpdate = shouldComponentUpdate;
+    this.shouldUpdate = shouldComponentUpdate;
+  }
+
+  shouldComponentUpdate(nextProps) {
+    if (!isEqual(nextProps.theme, this.props.theme)) {
+      this.style = styleConstructor(nextProps.theme);
+    }
+
+    return this.shouldUpdate && true
   }
 
   updateMonth(day, doNotTriggerListeners) {
@@ -341,7 +350,7 @@ class Calendar extends Component {
   }
 
   render() {
-    this.style = styleConstructor(this.props.theme);
+
     const {currentMonth} = this.state;
     const {firstDay, showSixWeeks, hideExtraDays} = this.props;
     const shouldShowSixWeeks = showSixWeeks && !hideExtraDays;
